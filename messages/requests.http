@@ -1,0 +1,15 @@
+### GET ALL Messages
+ 
+GET http://localhost:3000/messages
+
+### Post one message
+
+POST http://localhost:3000/messages
+content-type: application/json
+
+{
+    "content": "validation working lol"
+}
+
+### Get A particular message
+GET http://localhost:3000/messages/123
