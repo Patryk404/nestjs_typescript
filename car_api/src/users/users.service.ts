@@ -13,11 +13,20 @@ export class UsersService{
         return this.repo.save(user);
     }
     
-    findOne(id: string){
-    
+    async findOne(id: number){
+        const user = await this.repo.findOne({where: {id: id}}) ;
+        return user;
     }
     
-    find(){
+    async find(email: string){
          
+    }
+     
+    update(email: string,password: string,){
+
+    }
+    
+    remove(id:string){
+
     }
 }
