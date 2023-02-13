@@ -16,18 +16,20 @@ export class UsersController {
     }
 
     @Get()
-    async findAllUser(){
-
+    async findAllUser(@Query('email') email: string){
+        const users = await this.userService.find(email);
+        return users;
     }
 
     @Patch('/:id')
-    updateUser(@Body() body: CreateUserDto){
-
+    async updateUser(@Param('id') id: number, @Body() body: CreateUserDto){
+        const user = await this.userService.update(body.email,body.password,id);
+        return user;
     }
 
     @Delete('/:id')
-    removeUser(){
-
+    async removeUser(@Param('id') id: number){
+        return await this.userService.remove(id); 
     }
  
 }

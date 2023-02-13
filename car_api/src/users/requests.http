@@ -10,3 +10,18 @@ content-type: application/json
 
 ### 
 GET http://localhost:3000/auth/1
+
+###
+GET http://localhost:3000/auth?email=planbe@vhs.pl
+
+###
+PATCH http://localhost:3000/auth/1
+content-type: application/json
+
+{
+    "email": "white2115@2115.pl",
+    "password": "zakaaz321"
+}
+
+###
+DELETE http://localhost:3000/auth/1

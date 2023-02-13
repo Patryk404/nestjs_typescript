@@ -19,14 +19,25 @@ export class UsersService{
     }
     
     async find(email: string){
-         
+        const users = await this.repo.findBy({email: email});
+        return users;
     }
      
-    update(email: string,password: string,){
-
+    async update(email: string,password: string,id: number){
+        const user = await this.repo.findOne({where: {
+            id: id
+        }});  
+        user.email = email;
+        user.password = password;
+        await this.repo.save(user);
+        return user;
     }
     
-    remove(id:string){
-
+    async remove(id:number){
+        const user = await this.repo.findOne({where: {id: id}});
+        await this.repo.delete(user);
+        return {
+            message: `Succesfully deleted user ${id}`
+        };
     }
 }
