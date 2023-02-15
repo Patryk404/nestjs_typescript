@@ -7,8 +7,7 @@ import {
 
 import { Observable } from "rxjs";
 import {map} from "rxjs/operators";
-import { plainToClass } from "class-transformer";
-
+import { plainToInstance } from "class-transformer";
 interface ClassContructor { // class
     new (...args: any[]):{}
 }
@@ -29,7 +28,7 @@ export class SerializeInterceptor implements NestInterceptor{ // implements sati
                 // data.
                 // run something before the response is sent out
                 // delete(data.password);
-                return plainToClass(this.dto,data,{
+                return plainToInstance(this.dto,data,{
                     excludeExtraneousValues: true 
                 });
 
