@@ -21,6 +21,10 @@ import { AuthService } from './auth.service';
   export class UsersController {
     constructor(private usersService: UsersService, private authService: AuthService) {}
   
+    @Post('/login') 
+    loginUser(@Body() body: CreateUserDto){
+      return this.authService.signin(body.email,body.password);
+    }
     @Post('/signup')
     createUser(@Body() body: CreateUserDto) {
       return this.authService.signup(body.email,body.password);
