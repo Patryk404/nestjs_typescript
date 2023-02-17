@@ -22,3 +22,25 @@ content-type: application/json
 {
   "password": "aaaaa"
 }
+
+### Sign Out
+POST http://localhost:3000/auth/signout
+
+### Who am I ? 
+GET http://localhost:3000/auth/whoami
+
+### Login 
+POST http://localhost:3000/auth/login 
+content-type: application/json
+
+{
+  "email": "nomatter@lol.pl",
+  "password": "doingoveragain"
+}
+
+### Sign up 
+POST http://localhost:3000/auth/signup
+{
+  "email": "asdf@asdf.com",
+  "password": "asdlfkajsd"
+}
