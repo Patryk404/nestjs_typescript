@@ -6,18 +6,32 @@ import { BadRequestException, NotFoundException } from '@nestjs/common';
 
 describe('AuthService',()=>{
     let service: AuthService;
+    let users: User[] = [];
     const fakeUsersService: Partial<UsersService> = {
-        find: (email: string) => Promise.resolve([]),
-        create: (email: string,password: string)=> Promise.resolve({
-            id: 1,
-            email: email,
-            password: password
-        } as User),
-        findOneByEmail: (email: string) => Promise.resolve(null)
+        find: (email: string) => {
+            const filteredUsers = users.filter(user=> user.email == email);
+            return Promise.resolve(filteredUsers);
+        },
+        create: (email: string,password: string)=> {
+            let id = Math.random() * 100;
+            const user: User = {
+                id: id,
+                email: email,
+                password: password
+            }; 
+            
+            users.push(user);
+            return Promise.resolve(user);
+        },
+        findOneByEmail: (email: string) => {
+             const filteredUsers = users.filter(user=> user.email == email);
+            return Promise.resolve(filteredUsers[0]);
+        }
     }
 
     beforeEach(async()=>{
     
+        users = [];
         const module = await Test.createTestingModule({
             providers: [AuthService,{
                 provide: UsersService,
@@ -42,12 +56,13 @@ describe('AuthService',()=>{
     });
 
     it('throws an error if user signs up with email that is in use', async () => {
-        fakeUsersService.find = () => Promise.resolve([{ id: 1, email: 'a', password: '1' } as User]);
+        await service.signup("asdf@asdf.com","asdf");
+        // fakeUsersService.find = () => Promise.resolve([{ id: 1, email: 'a', password: '1' } as User]);
         await expect(service.signup('asdf@asdf.com', 'asdf')).rejects.toThrow(
           BadRequestException,
         ); 
 
-        // or 
+        // OR but i think this is not working but i did not check 
         /* 
         try{
             await service.signup('asdf@asdf.com','asdf');
@@ -65,14 +80,20 @@ describe('AuthService',()=>{
     });
 
     it('throws if an invalid password is provided', async () => {
-        fakeUsersService.findOneByEmail = (email: string) => Promise.resolve({
-            id: 1,
-            email: "laskdjf@alskdfj.com",
-            password: "fakepassword"  // should be hash here but let's say this is hash
-        } as User);
-        await expect(
-          service.signin('laskdjf@alskdfj.com', 'passowrd'),
-        ).rejects.toThrow(BadRequestException);
+        await service.signup("next@summer.com","mamtenszacunek");
+
+        await expect(service.signin('next@summer.com','password')).rejects.toThrow(BadRequestException);
+
       });
+    
+    it("returns user when password is correct",async()=>{
+        await service.signup("next@summer.com","mamtenszacunek");
+        
+        const user = await service.signin("next@summer.com","mamtenszacunek");
+
+        // await expect(service.signin("next@summer.com","mamtenszacunek")).toBeDefined() 
+        // could be also
+        expect(user).toBeDefined();
+    });
 
 });
