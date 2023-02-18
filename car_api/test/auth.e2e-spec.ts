@@ -13,12 +13,12 @@ describe('Authentication system', () => {
     }).compile();
 
     app = moduleFixture.createNestApplication();
-    starter(app);
+    // starter(app);
     await app.init();
   });
 
   it('handles a signup request', () => {
-    const email = "test@test.com";
+    const email = "test@testtt.com";
     return request(app.getHttpServer())
     .post('/auth/signup')
     .send({
@@ -26,10 +26,12 @@ describe('Authentication system', () => {
         password: "asdfsdf"
     })
     .expect(201)
-    .then((res)=>{
+    .then(async (res)=>{
         const {id, email} = res.body;
         expect(id).toBeDefined();
         expect(email).toEqual(email);
+        await request(app.getHttpServer())
+        .delete(`/auth/${id}`);
     });
   });
 });

@@ -17,7 +17,7 @@ describe('AppController (e2e)', () => {
     }).compile();
 
     app = moduleFixture.createNestApplication(); // add this cookie session and so on and this shoudl work fine 
-    starter(app); // run what we have in main.ts app.use and so on
+    // starter(app); // run what we have in main.ts app.use and so on
     await app.init();
   });
 

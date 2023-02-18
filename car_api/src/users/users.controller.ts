@@ -58,8 +58,8 @@ import { AuthGuard } from '../guards/auth.guard';
       const user = await this.authService.signin(body.email,body.password);
       session.userId = user.id;
       return user;
-      // return this.authService.signin(body.email,body.password);
     }
+    
     @Post('/signup')
     async createUser(@Body() body: CreateUserDto, @Session() session: any) {
       const user = await this.authService.signup(body.email,body.password);
