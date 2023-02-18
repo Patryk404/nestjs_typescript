@@ -2,29 +2,34 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from './../src/app.module';
-import { AppController } from '../src/app.controller';
-import { AppService } from '../src/app.service';
 import { starter } from '../src/starter';
 
-describe('AppController (e2e)', () => {
+describe('Authentication system', () => {
   let app: INestApplication;
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
-      controllers: [AppController],
-      providers: [AppService]
     }).compile();
 
-    app = moduleFixture.createNestApplication(); // add this cookie session and so on and this shoudl work fine 
-    starter(app); // run what we have in main.ts app.use and so on
+    app = moduleFixture.createNestApplication();
+    starter(app);
     await app.init();
   });
 
-  it('/ (GET)', () => {
+  it('handles a signup request', () => {
+    const email = "test@test.com";
     return request(app.getHttpServer())
-      .get('/')
-      .expect(200)
-      .expect('Hello World!');
+    .post('/auth/signup')
+    .send({
+        email: email,
+        password: "asdfsdf"
+    })
+    .expect(201)
+    .then((res)=>{
+        const {id, email} = res.body;
+        expect(id).toBeDefined();
+        expect(email).toEqual(email);
+    });
   });
 });

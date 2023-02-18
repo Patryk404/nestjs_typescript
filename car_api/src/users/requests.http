@@ -6,7 +6,12 @@ content-type: application/json
   "password": "asdlfkajsd"
 }
 
+### get hello world
+GET http://localhost:3000/
+
+
 ### Find a particular user with a given ID
+
 GET http://localhost:3000/auth/2
 
 ### Find all users with a given email
