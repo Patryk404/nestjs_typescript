@@ -7,17 +7,25 @@ import { UsersModule } from './users/users.module';
 import { ReportsModule } from './reports/reports.module';
 import {User} from "./users/user.entity";
 import { Report } from './reports/report.entity';
-// import {ConfigModule}
-import {ConfigModule} from "@nestjs/config";
+import {ConfigModule,ConfigService} from "@nestjs/config";
 // import cookieSession from 'cookie-session';
 const cookieSession = require('cookie-session');
 
 @Module({
-  imports: [ConfigModule.forRoot(),TypeOrmModule.forRoot({ // configModule.forRoot is for reading .env file
-    type: 'sqlite',
-    database: process.env.TESTING ? 'test.sqlite' :'db.sqlite',
-    entities: [User,Report],
-    synchronize: true
+  imports: [ConfigModule.forRoot({
+    isGlobal: true,
+    envFilePath: `.env.${process.env.NODE_ENV}`
+  }),TypeOrmModule.forRootAsync({ // configModule.forRoot is for reading .env file
+    inject: [ConfigService],
+    useFactory: (config: ConfigService)=>{
+      return {
+        type: 'sqlite',
+        database: config.get<string>('DB_NAME'),
+        synchronize: true,
+        entities: [User,Report]
+      }
+    }
+    
   }),UsersModule, ReportsModule],
   controllers: [AppController],
   providers: [AppService,

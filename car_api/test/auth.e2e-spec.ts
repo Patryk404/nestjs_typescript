@@ -21,7 +21,7 @@ describe('Authentication system', () => {
   }); 
 
   it('handles a signup request', () => {
-    const email = "test@wespa.com";
+    const email = "test@wespa2.com";
     return request(app.getHttpServer())
     .post('/auth/signup')
     .send({
@@ -37,4 +37,13 @@ describe('Authentication system', () => {
         // .delete(`/auth/${id}`);
     });
   });
+
+  it('signup as a new user and get user already logged',async()=>{
+    const email = "test@test.com";
+    const res = await request(app.getHttpServer()).post('/auth/signup').send({email,password: 'asdf'}).expect(201);
+    const cookie = res.get('Set-Cookie');
+    const {body} = await request(app.getHttpServer()).get('/auth/whoami').set('Cookie',cookie).expect(200);
+    expect(body.id).toBeDefined();
+    expect(body.email).toEqual(email);
+  })
 });
