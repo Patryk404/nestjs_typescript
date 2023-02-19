@@ -2,7 +2,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from './../src/app.module';
-import { starter } from '../src/starter';
 
 describe('Authentication system', () => {
   let app: INestApplication;
@@ -17,8 +16,12 @@ describe('Authentication system', () => {
     await app.init();
   });
 
+  afterEach(()=>{ 
+     // clear database every time when we run test
+  }); 
+
   it('handles a signup request', () => {
-    const email = "test@testtt.com";
+    const email = "test@wespa.com";
     return request(app.getHttpServer())
     .post('/auth/signup')
     .send({
@@ -30,8 +33,8 @@ describe('Authentication system', () => {
         const {id, email} = res.body;
         expect(id).toBeDefined();
         expect(email).toEqual(email);
-        await request(app.getHttpServer())
-        .delete(`/auth/${id}`);
+        // await request(app.getHttpServer())
+        // .delete(`/auth/${id}`);
     });
   });
 });
