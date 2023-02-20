@@ -1,3 +1,4 @@
+import { Report } from 'src/reports/report.entity';
 import {
     AfterInsert,
     AfterRemove,
@@ -5,6 +6,7 @@ import {
     Entity,
     Column,
     PrimaryGeneratedColumn,
+    OneToMany
   } from 'typeorm';
 
 // import {Exclude} from "class-transformer";
@@ -20,6 +22,9 @@ import {
     @Column()
     // @Exclude()
     password: string;
+
+    @OneToMany(()=>Report,(report)=>report.user) // circullary dependency issue
+    reports: Report[];
   
     // @AfterInsert()
     // logInsert() {
