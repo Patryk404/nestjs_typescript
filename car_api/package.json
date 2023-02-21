@@ -20,7 +20,9 @@
     "test:e2e": "cross-env NODE_ENV=test jest --config ./test/jest-e2e.json --maxWorkers=1",
     "typeorm": "ts-node ./node_modules/typeorm/cli",
     "typeorm:migration_generate": "cross-env NODE_ENV=development npm run typeorm -- -d ./typeOrm.config.ts migration:generate migrations/migrationfile -o",
-    "typeorm:migration_run": "cross-env NODE_ENV=development npm run typeorm migration:run -- -d ./typeOrm.config.ts"
+    "typeorm:migration_run": "cross-env NODE_ENV=development npm run typeorm migration:run -- -d ./typeOrm.config.ts",
+    "typeorm:migration_generate_test": "cross-env NODE_ENV=test npm run typeorm -- -d ./typeOrm.config.ts migration:generate migrations/test/migrationfile -o",
+    "typeorm:migration_run_test": "cross-env NODE_ENV=test npm run typeorm migration:run -- -d ./typeOrm.config.ts"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",

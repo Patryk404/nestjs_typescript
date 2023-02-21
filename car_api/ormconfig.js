@@ -19,6 +19,7 @@ var dbConfig = {
         type: 'sqlite',
         database: 'test.sqlite',
         entities: ['**/*.entity.ts'],
+        migrationsRun: true // this is important according to run test
       });
       break;
     case 'production':
