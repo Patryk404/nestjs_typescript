@@ -23,6 +23,9 @@ import {
     // @Exclude()
     password: string;
 
+    @Column({default: true})
+    admin: boolean;
+
     @OneToMany(()=>Report,(report)=>report.user) // circullary dependency issue
     reports: Report[];
   

@@ -24,7 +24,7 @@ describe('UsersController', () => {
           id: 2,
           email: email,
           password: "user"
-        } ]);
+        } ] as User[]);
       }
     };
     fakeAuthService={
