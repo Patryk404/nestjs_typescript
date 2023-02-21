@@ -4,7 +4,6 @@ import * as request from 'supertest';
 import { AppModule } from './../src/app.module';
 import { AppController } from '../src/app.controller';
 import { AppService } from '../src/app.service';
-import { starter } from '../src/starter';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;

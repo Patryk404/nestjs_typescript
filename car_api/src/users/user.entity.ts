@@ -1,4 +1,4 @@
-import { Report } from 'src/reports/report.entity';
+import { Report } from '../reports/report.entity';
 import {
     AfterInsert,
     AfterRemove,
@@ -22,6 +22,9 @@ import {
     @Column()
     // @Exclude()
     password: string;
+
+    @Column({default: true})
+    admin: boolean;
 
     @OneToMany(()=>Report,(report)=>report.user) // circullary dependency issue
     reports: Report[];
